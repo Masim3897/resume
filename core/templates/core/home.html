@@ -1,0 +1,32 @@
+{% extends "core/base.html" %} {% load static %} {% block content %}
+<div class="mt-5">
+  <div class="mt-5 text-center">
+    <img
+      src="{% static 'core/images/pic1.jpg' %}"
+      alt="profilepic"
+      class="img-thumbnail"
+      width="250px"
+      height="150px"
+    />
+  </div>
+  <div class="mt-5 text-white mx-5 text-justify">
+    <h1 class="mt-5 st-font font-weight-bold">Hello,</h1>
+    <div class="px-4" style="line-height: 2rem">
+      <p style="text-indent: 100px">
+        I am <b class="text-warning"> Muhammad Asim</b> Highly skilled and
+        motivated intermediate-level back-end web developer with proficiency in
+        Django and a solid foundation in Python. Possesses a strong interest in
+        machine learning and artificial intelligence. Committed to delivering
+        robust and efficient web solutions while continuously expanding
+        expertise in Python development and AI technologie
+      </p>
+    </div>
+  </div>
+  <div class="mt-2 text-center">
+    <a href="{% url 'contact' %}" class="btn btn-outline-warning my-3 mr-5">Hire Me</a>
+    <a href="{% url 'contact' %}" class="btn btn-outline-info my-3">Contact</a>
+  </div>
+  <div></div>
+</div>
+
+{% endblock content %}
