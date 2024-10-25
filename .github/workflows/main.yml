@@ -8,15 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          python-version: '3.8'
+          node-version: "20"
+      - uses: actions/setup-python@v4
 
       - name: Install dependencies
         run: |
@@ -41,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated to v3
+        uses: actions/checkout@v3 # Updated to v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
