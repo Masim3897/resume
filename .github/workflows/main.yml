@@ -11,35 +11,34 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          node-version: "20" # Explicitly specify Node.js version
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20" # Ensures compatibility with upcoming changes
+          node-version: "20"
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"  # Replace with your preferred Python version
+          python-version: "3.10"  # Set Python version to 3.10 to satisfy dependencies
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          # Conditionally install pywin32 if on Windows; skip on Linux
+          if [[ "$(uname)" == "Linux" ]]; then
+            sed -i '/pywin32/d' req.txt
+          fi
           pip install -r req.txt
 
       - name: Apply migrations
-        run: |
-          python manage.py migrate
+        run: python manage.py migrate
 
       - name: Collect static files
-        run: |
-          python manage.py collectstatic --noinput
+        run: python manage.py collectstatic --noinput
 
       - name: Run tests
-        run: |
-          python manage.py test
+        run: python manage.py test
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,8 +47,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          node-version: "20" # Explicitly specify Node.js version
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -62,5 +59,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./static s3://asim-bucket/static --acl public-read
+        run: aws s3 sync ./static s3://asim-bucket/static --acl public-read
