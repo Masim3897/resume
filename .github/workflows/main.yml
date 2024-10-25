@@ -11,16 +11,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+        with:
+          node-version: "20" # Explicitly specify Node.js version
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: "20" # Ensures compatibility with upcoming changes
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  
+          python-version: "3.9"  # Replace with your preferred Python version
 
       - name: Install dependencies
         run: |
@@ -42,9 +44,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          node-version: "20" # Explicitly specify Node.js version
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
